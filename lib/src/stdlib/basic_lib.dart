@@ -52,6 +52,8 @@ class BasicLib {
   static int _basePrint(LuaState ls) {
     int n = ls.getTop(); /* number of arguments */
     ls.getGlobal('tostring');
+
+    String outputString = "";
     for (int i = 1; i <= n; i++) {
       ls.pushValue(-1); /* function to be called */
       ls.pushValue(i); /* value to print */
@@ -61,12 +63,19 @@ class BasicLib {
         return ls.error2("'tostring' must return a string to 'print'");
       }
       if (i > 1) {
-        stdout.write("\t");
+        outputString += '\t';
       }
-      stdout.write(s);
+      outputString += s;
       ls.pop(1); /* pop result */
     }
-    stdout.write('\n');
+
+    try {
+      stdout.write('$outputString\n');
+    } on UnsupportedError catch (_) {
+      // ignore: avoid_print
+      print(outputString);
+    }
+
     return 0;
   }
 
