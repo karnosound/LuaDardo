@@ -391,19 +391,35 @@ class Lexer {
   }
 
   String readNumeral() {
-    String expo = "Ee";
     String first = chunk.current;
     _save_and_next();
-    if (first == '0' && chunk.startsWith("xX"))  /* hexadecimal? */
-      expo = "Pp";
+    if (first == '0' && chunk.current.toLowerCase() == 'x') {
+      _save_and_next();
+      return readHexadecimalNumeral();
+    }
 
     for (;;) {
-      if (chunk.startsWith(expo))  /* exponent part? */
-        chunk.startsWith("-+");  /* optional exponent sign */
-      if (CharSequence.isxDigit(chunk.current) || chunk.current == '.')
-        _save_and_next();
-      else break;
+      if (!CharSequence.isDigit(chunk.current) && chunk.current != '.') {
+        break;
+      }
+      _save_and_next();
     }
+
+    return _buff.toString();
+  }
+
+  String readHexadecimalNumeral() {
+    for (;;) {
+      if (chunk.current == '.' || chunk.current.toLowerCase() == 'p') {
+        throw Exception(
+            'hexadecimal floating point numeric constants are not supported');
+      }
+      if (!CharSequence.isxDigit(chunk.current)) {
+        break;
+      }
+      _save_and_next();
+    }
+
     return _buff.toString();
   }
 
