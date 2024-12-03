@@ -10,7 +10,7 @@ import 'stat.dart';
 // explist ::= exp {‘,’ exp}
 class Block extends Node {
   List<Stat> stats;
-  List<Exp> retExps;
+  List<Exp>? retExps;
 
   Block({required this.stats,required this.retExps});
 
@@ -26,9 +26,9 @@ class Block extends Node {
       }
       sb.write(']');
     }
-    if(retExps.isNotEmpty){
+    if(retExps != null){
       sb.write(',\nRetExps:[');
-      for(var exp in retExps){
+      for(var exp in retExps!){
         _expToStr(exp,sb);
       }
       sb.writeln(']');

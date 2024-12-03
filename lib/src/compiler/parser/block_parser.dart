@@ -42,9 +42,9 @@ class BlockParser {
 
   // retstat ::= return [explist] [‘;’]
   // explist ::= exp {‘,’ exp}
-   static List<Exp> parseRetExps(Lexer lexer) {
+   static List<Exp>? parseRetExps(Lexer lexer) {
     if (lexer.LookAhead() != TokenKind.TOKEN_KW_RETURN) {
-      return List.empty();
+      return null;
     }
 
     lexer.nextToken();

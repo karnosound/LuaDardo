@@ -13,8 +13,8 @@ class BlockProcessor {
       StatProcessor.processStat(fi, stat);
     }
 
-    if (node.retExps.isNotEmpty) {
-      processRetStat(fi, node.retExps, node.lastLine);
+    if (node.retExps != null) {
+      processRetStat(fi, node.retExps!, node.lastLine);
     }
   }
 
