@@ -398,7 +398,20 @@ class Lexer {
       return readHexadecimalNumeral();
     }
 
+    var hasReadExponent = false;
     for (;;) {
+      if (!hasReadExponent && chunk.current.toLowerCase() == 'e') {
+        hasReadExponent = true;
+        _save_and_next();
+
+        if (chunk.current == '+' || chunk.current == '-') {
+          _save_and_next();
+        }
+      }
+
+      if (chunk.current.isEmpty) {
+        break;
+      }
       if (!CharSequence.isDigit(chunk.current) && chunk.current != '.') {
         break;
       }
