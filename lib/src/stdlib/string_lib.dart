@@ -301,12 +301,39 @@ class StringLib {
         return sprintf(tag, [ls.toInteger(argIdx)]);
       case 'f': // float
         return sprintf(tag, [ls.toNumber(argIdx)]);
-      case 's':
-      case 'q': // string
+      case 's': // string
         return sprintf(tag, [ls.toString2(argIdx)]);
+      case 'q':
+        return _fmtArgQ(ls.toString2(argIdx));
       default:
         throw Exception("todo! tag=" + tag);
     }
+  }
+
+  static String? _fmtArgQ(String? arg) {
+    if (arg == null) {
+      return null;
+    }
+
+    var result = "";
+    for (final char in arg.split('')) {
+      final charMap = {
+        '\a': '\\a',
+        '\b': '\\b',
+        '\f': '\\f',
+        '\n': '\\n',
+        '\r': '\\r',
+        '\t': '\\t',
+        '\v': '\\v',
+        '\\': '\\\\',
+        '"': '\\"',
+        '\'': '\\\'',
+      };
+
+      result += charMap[char] ?? char;
+    }
+
+    return '"$result"';
   }
 
 /* PATTERN MATCHING */
