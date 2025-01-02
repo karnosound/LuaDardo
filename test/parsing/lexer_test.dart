@@ -28,4 +28,11 @@ void main() {
 
     expect(() => ls.doString("return 21.42E-6e4"), throwsA(isA<Exception>()));
   });
+
+  test('digit escape', () {
+    final ls = LuaState.newState();
+
+    ls.doString('return "\\27"');
+    expect(ls.toString2(-1), '\x1B');
+  });
 }

@@ -317,8 +317,8 @@ class Lexer {
                   c = 0;
                   /* 最多读取3位数字 */
                   for (int i = 0; i < 3 && CharSequence.isDigit(chunk.current); i++) {
-                    c = 10 * c + (chunk.current - '0') as int;
-                      chunk.next(1);
+                    c = 10 * c + int.parse(chunk.current);
+                    chunk.next(1);
                   }
                   _save_c(c);
                 }
